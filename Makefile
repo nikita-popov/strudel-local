@@ -40,8 +40,8 @@ fetch-samples:
 	bash scripts/fetch_samples.sh ./samples-raw
 
 normalize-samples:
+	rm -rf ./samples
 	mkdir -p ./samples-normalized
-	rm -rf ./samples-raw
 	find ./samples-raw -maxdepth 2 -iname "*.json" -exec cp {} ./samples-normalized/ \;
 	rsync -a --exclude='.git' --exclude='*.json' ./samples-raw/ ./samples-normalized/
 	mv ./samples-normalized ./samples
