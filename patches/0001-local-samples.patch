@@ -1,0 +1,21 @@
+# Redirect default sample base URL from external CDN to local nginx /samples/
+#
+# Apply with:  git apply /patches/0001-local-samples.patch
+#
+# The exact filename and URL string depend on the current Strudel version.
+# Verify the target file and URL before applying:
+#   grep -rn "bunny\|githubusercontent\|freesound\|strudel.json" website/src/repl/
+#
+# If the patch does not apply cleanly, patch manually or use the sed fallback
+# in the Dockerfile (see comment below the patch block).
+
+diff --git a/website/src/repl/prebake.mjs b/website/src/repl/prebake.mjs
+--- a/website/src/repl/prebake.mjs
++++ b/website/src/repl/prebake.mjs
+@@ -1,5 +1,5 @@
+-  await samples('https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json');
++  await samples('/samples/dirt-samples/strudel.json');
+
+# Sed fallback (add to Dockerfile if patch fails):
+# RUN sed -i "s|https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json|/samples/dirt-samples/strudel.json|g" \
+#     website/src/repl/prebake.mjs
